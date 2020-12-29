@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-/* 
+/*
 Coleman-Liau index Formula
 index = 0.0588 * L - 0.296 * S - 15.8
 L 	= avg. letters per 100 words
@@ -14,64 +14,31 @@ space = int(32), end of a word
 ['.', '!', '?'] = end of a sentence, int[46, 33, 63]
 */
 
-int main()
+int main(void)
 {
 	string s = get_string("Text: ");
-	int i = 0, j = 0;
-
-	// first string - make sure it's not a 'space'
-	while (i < strlen(s))
+	unsigned long txt_len = strlen(s);
+	while (txt_len < 2)
 	{
-		if (s[i] == ' ')
+		s = get_string("Text: ");
+		txt_len = strlen(s);
+	}
+	printf("The length is: %lu\n", txt_len);
+
+	int words = 0;
+	int sentences = 0;
+	for (int i = 0; i < txt_len; i++)
+	{
+		int ascii = (int)s[i];
+		if (ascii == 32)
 		{
-			i++;
-		}
-		else
+			words++;
+		};
+		if (ascii == 33 || ascii == 46 || ascii == 63)
 		{
-			if (s[i] > 96 && s[i] < 123)
-			{
-				printf("%c", toupper(s[i]));
-			}
-			else
-			{
-				printf("%c", s[i]);
-			}
-			break;
+			sentences++;
 		}
 	}
-
-	j = i + 1;
-
-	//succeeding strings - search for the next 'space'
-	for (j = i + 1; j < strlen(s) - 1; j++)
-	{
-		while (s[j] != 32)
-		{
-			j++;
-
-			if (s[j] == '\0')
-			{
-				printf("\n");
-				exit(0);
-			}
-		}
-		while (s[j] == 32)
-		{
-			j++;
-			if (s[j] == '\0')
-			{
-				printf("\n");
-				exit(0);
-			}
-		}
-		if (s[j] > 96 && s[j] < 123 && s[j] != '\0')
-		{
-			printf("%c", toupper(s[j]));
-		}
-		else
-		{
-			printf("%c", s[j]);
-		}
-	}
-	//printf("\n%lu", strlen(s));
+	printf("words: %i\n", words);
+	printf("sentences: %i\n", sentences);
 }

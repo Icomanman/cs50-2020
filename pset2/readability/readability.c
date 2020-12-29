@@ -3,69 +3,75 @@
 #include <string.h>
 #include <ctype.h>
 
-// Coleman-Liau index Formula
-// index = 0.0588 * L - 0.296 * S - 15.8
+/* 
+Coleman-Liau index Formula
+index = 0.0588 * L - 0.296 * S - 15.8
+L 	= avg. letters per 100 words
+	= letters * 100 / words
+S 	= avg. sentences per 100 words
+	= sentences * 100 / words
+space = int(32), end of a word
+['.', '!', '?'] = end of a sentence, int[46, 33, 63]
+*/
 
 int main()
 {
-    string s = get_string("Please enter: ");
-    int i = 0, j = 0;
+	string s = get_string("Text: ");
+	int i = 0, j = 0;
 
-    //first string - make sure it's not a 'space'
-    while (i < strlen(s))
-    {
-       if (s[i] == ' ')
-       {
-           i++;
-       }
-       else
-        {
-            if (s[i] > 96 && s[i] < 123)
-            {
-            printf("%c", toupper(s[i]));
-            }
-            else
-            {
-            printf("%c", s[i]);
-            }
-            break;
-        }
-    }
+	// first string - make sure it's not a 'space'
+	while (i < strlen(s))
+	{
+		if (s[i] == ' ')
+		{
+			i++;
+		}
+		else
+		{
+			if (s[i] > 96 && s[i] < 123)
+			{
+				printf("%c", toupper(s[i]));
+			}
+			else
+			{
+				printf("%c", s[i]);
+			}
+			break;
+		}
+	}
 
-    j = i+1;
+	j = i + 1;
 
+	//succeeding strings - search for the next 'space'
+	for (j = i + 1; j < strlen(s) - 1; j++)
+	{
+		while (s[j] != 32)
+		{
+			j++;
 
-    //succeeding strings - search for the next 'space'
-    for (j = i+1; j < strlen(s) - 1; j++)
-    {
-       while (s[j] != 32)
-       {
-           j++;
-
-           if (s[j] == '\0')
-            {
-                printf("\n");
-                exit(0);
-            }
-       }
-        while (s[j] == 32)
-        {
-            j++;
-            if (s[j] == '\0')
-            {
-                printf("\n");
-                exit(0);
-            }
-        }
-        if (s[j] > 96 && s[j] < 123 && s[j] != '\0')
-        {
-            printf("%c", toupper(s[j]));
-
-        }
-        else
-        {
-        printf("%c", s[j]);
-        }
-    }
-    //printf("\n%lu", strlen(s));
+			if (s[j] == '\0')
+			{
+				printf("\n");
+				exit(0);
+			}
+		}
+		while (s[j] == 32)
+		{
+			j++;
+			if (s[j] == '\0')
+			{
+				printf("\n");
+				exit(0);
+			}
+		}
+		if (s[j] > 96 && s[j] < 123 && s[j] != '\0')
+		{
+			printf("%c", toupper(s[j]));
+		}
+		else
+		{
+			printf("%c", s[j]);
+		}
+	}
+	//printf("\n%lu", strlen(s));
 }

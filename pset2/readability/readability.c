@@ -2,6 +2,7 @@
 #include <cs50.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 /*
 Coleman-Liau index Formula
@@ -17,14 +18,20 @@ space = int(32), end of a word
 // Uppercase: 65 to 90
 // Lowercase: 97 to 122
 
+// part of math.h
+double pow10(double x);
+double round(double x);
+
 int main(void)
 {
-
-	unsigned long letters = 0;
-	unsigned long words = 0;
-	int sentences = 0;
+	const int BASE = 10;
+	double letters = 0;
+	double words = 0;
+	double sentences = 0;
 	double index = 0;
 	double L, S;
+	int grade = 0;
+	char last_char = 46; // initialised as a period '.'
 
 	string s = get_string("Text: ");
 	unsigned long txt_len = strlen(s);
@@ -36,6 +43,7 @@ int main(void)
 		txt_len = strlen(s);
 	}
 	words = 1;
+	last_char = s[txt_len - 1];
 
 	// count the sentences and words based on the contents
 	for (int i = 0; i < txt_len; i++)
@@ -55,13 +63,50 @@ int main(void)
 		}
 	}
 
-	L = letters * 100 / words;
-	S = sentences * 100 / words;
-	index = (0.0588 * L) - (0.296 * S) - 15.8;
-	/*
-	printf("letters: %lu\n", letters);
-	printf("words: %lu\n", words);
-	printf("sentences: %i\n", sentences);
-	printf("L, S and index: %f, %f and %.3f\n", L, S, index);
+	/* 
+	when no period, question mark or exclamation point at the end of the text,
+	assume a single sentence
 	*/
+
+	if (last_char != 46 && last_char != 33 && last_char != 63)
+	{
+		sentences++;
+	}
+
+	L = letters * 100. / words;
+	S = sentences * 100. / words;
+	index = (0.0588 * L) - (0.296 * S) - 15.8;
+	index = fabs(round(index));
+
+	printf("letters: %f\n", letters);
+	printf("words: %f\n", words);
+	printf("sentences: %f\n", sentences);
+	printf("L, S and index: %f, %f and %.3f\n", L, S, index);
+
+	if (index < 1)
+	{
+		printf("Before Grade 1");
+	}
+	else if (index > 16)
+	{
+		printf("Grade 16+");
+	}
+	else
+	{
+		printf("Grade: %.0f\n", index);
+	}
+}
+
+// Calculate Exponents
+long long raiseTo(int exp)
+{
+	const int BASE = 10;
+	long long result = 1;
+
+	while (exp > 0)
+	{
+		result *= BASE;
+		exp--;
+	}
+	return result;
 }

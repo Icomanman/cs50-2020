@@ -1,11 +1,11 @@
 ## SPECIFICATION ##
 Design and implement a program, readability, that computes the Coleman-Liau index of the text.
 
-Implement your program in a file called readability.c in a ~/pset2/readability directory.
-Your program must prompt the user for a string of text (using get_string).
-Your program should count the number of letters, words, and sentences in the text. You may assume that a letter is any lowercase character from a to z or any uppercase character from A to Z, any sequence of characters separated by spaces should count as a word, and that any occurrence of a period, exclamation point, or question mark indicates the end of a sentence.
-Your program should print as output "Grade X" where X is the grade level computed by the Coleman-Liau formula, rounded to the nearest integer.
-If the resulting index number is 16 or higher (equivalent to or greater than a senior undergraduate reading level), your program should output "Grade 16+" instead of giving the exact index number. If the index number is less than 1, your program should output "Before Grade 1".
+1. Implement your program in a file called readability.c in a ~/pset2/readability directory.
+2. Your program must prompt the user for a string of text (using get_string).
+3. Your program should count the number of letters, words, and sentences in the text. You may assume that a letter is any lowercase character from a to z or any uppercase character from A to Z, any sequence of characters separated by spaces should count as a word, and that any occurrence of a period, exclamation point, or question mark indicates the end of a sentence.
+4. Your program should print as output "Grade X" where X is the grade level computed by the Coleman-Liau formula, rounded to the nearest integer.
+5. If the resulting index number is 16 or higher (equivalent to or greater than a senior undergraduate reading level), your program should output "Grade 16+" instead of giving the exact index number. If the index number is less than 1, your program should output "Before Grade 1".
 
 ## Getting User Input ##
 Let’s first write some C code that just gets some text input from the user, and prints it back out. Specifically, write code in a new file called readability.c such that when the user runs the program, they are prompted with "Text: " to enter some text.

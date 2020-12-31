@@ -63,37 +63,37 @@ int main(void)
 		}
 	}
 
-	/* 
+	/*
 	when no period, question mark or exclamation point at the end of the text,
 	assume a single sentence
 	*/
 
-	if (last_char != 46 && last_char != 33 && last_char != 63)
+	if (last_char != 46 && last_char != 33 && last_char != 63 && last_char != 34)
 	{
 		sentences++;
 	}
 
 	L = letters * 100. / words;
 	S = sentences * 100. / words;
-	index = (0.0588 * L) - (0.296 * S) - 15.8;
-	index = fabs(round(index));
-
+	index = 0.0588 * L - 0.296 * S - 15.8;
+	index = round(index);
+	/*
 	printf("letters: %f\n", letters);
 	printf("words: %f\n", words);
 	printf("sentences: %f\n", sentences);
 	printf("L, S and index: %f, %f and %.3f\n", L, S, index);
-
+	*/
 	if (index < 1)
 	{
-		printf("Before Grade 1");
+		printf("Before Grade 1...\n");
 	}
 	else if (index > 16)
 	{
-		printf("Grade 16+");
+		printf("Grade 16+\n");
 	}
 	else
 	{
-		printf("Grade: %.0f\n", index);
+		printf("Grade %.0f\n", index);
 	}
 }
 

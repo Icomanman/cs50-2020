@@ -115,3 +115,10 @@ Now it’s time to tie everything together! Instead of shifting the characters b
 4. Recall that ASCII maps all printable characters to numbers.
 5. Recall that the ASCII value of A is 65. The ASCII value of a, meanwhile, is 97.
 6. If you’re not seeing any output at all when you call printf, odds are it’s because you’re printing characters outside of the valid ASCII range from 0 to 127. Try printing characters as numbers (using %i instead of %c) at first to see what values you’re printing, and make sure you’re only ever trying to print valid characters!
+
+# Submission
+check50 cs50/problems/2021/x/caesar
+submit50 cs50/problems/2021/x/caesar
+
+# Style
+style50 caesar.c

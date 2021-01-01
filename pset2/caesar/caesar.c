@@ -4,31 +4,32 @@
 #include <cs50.h>
 #include <string.h>
 
-int k;
-
 int main(int argc, string argv[])
 {
-
 	if (argc != 2)
 	{
 		printf("error\n");
 		return 1;
 	}
 
-	k = atoi(argv[1]);
-
-	/*
-	if (k < 0)
-	{W
-		printf("please enter a positive integer\n");
+	int k = atoi(argv[1]);
+	if (k < 48)
+	{
+		printf("Usage: ./caesar key\n");
 		return 1;
 	}
-	*/
+	else if (k > 57)
+	{
+		printf("Usage: ./caesar key\n");
+		return 1;
+	}
 	string p = get_string("plaintext: ");
 
 	int n = strlen(p);
-
-	//cipher key...
+	/*
+	cipher key = k
+	plaintext will be shifted accordingly (using the ascii code)
+	*/
 	int cipherKey[n];
 	printf("ciphertext: ");
 	for (int i = 0; i <= n - 1; i++)

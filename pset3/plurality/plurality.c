@@ -65,13 +65,61 @@ int main(int argc, string argv[])
 // Update vote totals given a new vote
 bool vote(string name)
 {
-    // TODO
+    // For evey vote, loop through the candidates and use strcmp:
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(name, candidates[i].name) == 0)
+        {
+            candidates[i].votes += 1;
+            return true;
+        }
+    }
     return false;
 }
 
 // Print the winner (or winners) of the election
 void print_winner(void)
 {
-    // TODO
+    int winners[candidate_count];
+    int highest_votes = 0;
+    int next_winner;
+    int highest_voted;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        // get the highest voted candidate:
+        if (highest_votes < candidates[i].votes)
+        {
+            highest_votes = candidates[i].votes;
+            // get the index of highest voted candidate:
+            highest_voted = i;
+        }
+    }
+
+    winners[0] = highest_voted;
+    if (winners[0] >= 0)
+    {
+        next_winner = 1;
+    }
+
+    // rerun loop for possible ties:
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (highest_votes == candidates[i].votes && i != highest_voted)
+        {
+            winners[next_winner] = i;
+            next_winner += 1;
+        }
+    }
+
+    // finally, print the winner(s), if any:
+    for (int i = 0; i < next_winner; i++)
+    {
+        if (winners[i] >= 0)
+        {
+            printf("%s\n", candidates[winners[i]].name);
+        }
+    }
+
     return;
 }

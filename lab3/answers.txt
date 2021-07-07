@@ -1,11 +1,14 @@
-sort1 uses: TODO
+sort1 uses: Bubble Sort
 
-How do you know?: TODO
+How do you know?: This program ran the fastest for the sorted values, 
+which is expected since the entries are all in order given Omega(n). 
 
-sort2 uses: TODO
+sort2 uses: Merge Sort
 
-How do you know?: TODO
+How do you know?: This program ran the fastest when tested on random values with the largest entries, 
+which implies O(n log n).
 
-sort3 uses: TODO
+sort3 uses: Selection Sort
 
-How do you know?: TODO
+How do you know?: This sort ran the slowest for the sorted values,
+which means Omega(n^2); so long as it is slower than sort 2 in terms of the sorted values.

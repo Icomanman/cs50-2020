@@ -1,5 +1,6 @@
 #include <cs50.h>
 #include <stdio.h>
+#include <string.h>
 
 // Max voters and candidates
 #define MAX_VOTERS 100
@@ -14,8 +15,7 @@ typedef struct
     string name;
     int votes;
     bool eliminated;
-}
-candidate;
+} candidate;
 
 // Array of candidates
 candidate candidates[MAX_CANDIDATES];
@@ -77,6 +77,11 @@ int main(int argc, string argv[])
                 printf("Invalid vote.\n");
                 return 4;
             }
+            // for testing purposes only
+            else
+            {
+                printf("[%i][%i] = %s\n", i, j, name);
+            }
         }
 
         printf("\n");
@@ -127,7 +132,18 @@ int main(int argc, string argv[])
 // Record preference if vote is valid
 bool vote(int voter, int rank, string name)
 {
-    // TODO
+
+    // For evey vote, loop through the candidates and use strcmp:
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(name, candidates[i].name) == 0)
+        {
+            candidates[i].votes += 1;
+            // record the input into the preferences matrix:
+            preferences[voter][rank] = i;
+            return true;
+        }
+    }
     return false;
 }
 

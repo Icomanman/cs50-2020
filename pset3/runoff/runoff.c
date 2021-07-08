@@ -78,12 +78,11 @@ int main(int argc, string argv[])
                 return 4;
             }
         }
-
         printf("\n");
     }
 
     // Keep holding runoffs until winner exists
-    while (false)
+    while (true)
     {
         // Calculate votes given remaining candidates
         tabulate();
@@ -127,13 +126,12 @@ int main(int argc, string argv[])
 // Record preference if vote is valid
 bool vote(int voter, int rank, string name)
 {
-
     // For evey vote, loop through the candidates and use strcmp:
     for (int i = 0; i < candidate_count; i++)
     {
         if (strcmp(name, candidates[i].name) == 0)
         {
-            candidates[i].votes += 1;
+            // candidates[i].votes += 1;
             // record the input into the preferences matrix:
             preferences[voter][rank] = i;
             return true;
@@ -145,21 +143,81 @@ bool vote(int voter, int rank, string name)
 // Tabulate votes for non-eliminated candidates
 void tabulate(void)
 {
-    // TODO
+    for (int i = 0; i < voter_count; i++)
+    {
+        // get the first rank:
+        int voted_candidate = preferences[i][0];
+        // count the respective vote towards the candidate of first rank:
+        candidates[voted_candidate].votes += 1;
+    }
     return;
 }
 
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
-    // TODO
+    // int ties[candidate_count];
+    // int next_winner;
+    int highest_votes = 0;
+    int highest_voted;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        // get the highest voted candidate:
+        if (highest_votes < candidates[i].votes)
+        {
+            highest_votes = candidates[i].votes;
+            // get the index of highest voted candidate:
+            highest_voted = i;
+        }
+    }
+
+    // ties[0] = highest_voted;
+    // if (ties[0] >= 0)
+    // {
+    //     next_winner = 1;
+    // }
+
+    // rerun loop for possible ties:
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (highest_votes == candidates[i].votes && i != highest_voted)
+        {
+            // there's at least a tie. So maybe there's no need to proceed?
+            return false;
+            // ties[next_winner] = i;
+            // next_winner += 1;
+        }
+        else
+        {
+            // if there's no tie, then there's a winner
+            printf("%s\n", candidates[highest_voted].name);
+            return true;
+        }
+    }
     return false;
 }
 
 // Return the minimum number of votes any remaining candidate has
 int find_min(void)
 {
-    // TODO
+    // this is a sorting problem from the lecture :)
+    int lowest_votes = 0;
+    int lowest_voted = 0;
+    for (int i = 0; i < candidate_count - 1; i++)
+    {
+        if (candidates[i].eliminated)
+            continue;
+
+        // get the highest voted candidate:
+        if (candidates[lowest_voted].votes > candidates[i].votes)
+        {
+            lowest_votes = candidates[i].votes;
+            // get the index of lowest voted candidate:
+            lowest_voted = i;
+        }
+    }
+
     return 0;
 }
 

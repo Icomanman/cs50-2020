@@ -77,18 +77,13 @@ int main(int argc, string argv[])
                 printf("Invalid vote.\n");
                 return 4;
             }
-            // for testing purposes only
-            else
-            {
-                printf("[%i][%i] = %s\n", i, j, name);
-            }
         }
 
         printf("\n");
     }
 
     // Keep holding runoffs until winner exists
-    while (true)
+    while (false)
     {
         // Calculate votes given remaining candidates
         tabulate();

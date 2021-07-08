@@ -204,12 +204,14 @@ int find_min(void)
     // this is a sorting problem from the lecture :)
     int lowest_votes = 0;
     int lowest_voted = 0;
-    for (int i = 0; i < candidate_count - 1; i++)
+    for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].eliminated)
+        {
             continue;
+        }
 
-        // get the highest voted candidate:
+        // get the lowest voted candidate:
         if (candidates[lowest_voted].votes > candidates[i].votes)
         {
             lowest_votes = candidates[i].votes;
@@ -217,20 +219,43 @@ int find_min(void)
             lowest_voted = i;
         }
     }
-
-    return 0;
+    return lowest_voted;
 }
 
 // Return true if the election is tied between all candidates, false otherwise
 bool is_tie(int min)
 {
-    // TODO
+    int ties[candidate_count];
+    int next_winner = 0;
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (min == candidates[i].votes)
+        {
+            ties[next_winner] = i;
+            next_winner += 1;
+        }
+    }
+
+    if (next_winner > 0)
+    {
+        return true;
+    }
+
     return false;
 }
 
 // Eliminate the candidate (or candidates) in last place
 void eliminate(int min)
 {
-    // TODO
+    for (int i = 0; i < candidate_count; i++)
+    {
+        // eliminate the candidates with votes equal to min:
+        if (min == candidates[i].votes)
+        {
+            candidates[i].eliminated = true;
+        }
+    }
     return;
 }
+
+// 2hrs+ and counting: 08 July 2021

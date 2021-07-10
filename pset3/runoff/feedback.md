@@ -7,24 +7,12 @@
 :) vote correctly sets all preferences for voter
 :) tabulate counts votes when all candidates remain in election
 :) tabulate counts votes when one candidate is eliminated
-
-# :( tabulate counts votes when multiple candidates are eliminated
-
-tabulate function did not produce correct vote totals
-
-# :( tabulate handles multiple rounds of preferences
-
-tabulate function did not produce correct vote totals
+:) tabulate counts votes when multiple candidates are eliminated
+:) tabulate handles multiple rounds of preferences
 :) print_winner prints name when someone has a majority
 :) print_winner returns true when someone has a majority
-
-# :( print_winner returns false when nobody has a majority
-
-print_winner did not return false
-
-# :( print_winner returns false when leader has exactly 50% of vote
-
-print_winner did not return false
+:) print_winner returns false when nobody has a majority
+:) print_winner returns false when leader has exactly 50% of vote
 
 # :( find_min returns minimum number of votes for candidate
 
@@ -37,6 +25,7 @@ find_min did not identify correct minimum
 # :( find_min ignores eliminated candidates
 
 find_min did not identify correct minimum
+
 :) is_tie returns true when election is tied
 
 # :( is_tie returns false when election is not tied

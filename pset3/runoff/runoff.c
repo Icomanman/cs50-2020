@@ -145,10 +145,17 @@ void tabulate(void)
 {
     for (int i = 0; i < voter_count; i++)
     {
-        // get the first rank:
-        int voted_candidate = preferences[i][0];
-        // count the respective vote towards the candidate of first rank:
-        candidates[voted_candidate].votes += 1;
+        for (int j = 0; j < candidate_count; j++)
+        {
+            // get the jth rank, starting from rank 1 (index 0):
+            int voted_candidate = preferences[i][j];
+            // count the respective vote towards the candidate of first rank:
+            if (candidates[voted_candidate].eliminated == false)
+            {
+                candidates[voted_candidate].votes += 1;
+                break;
+            }
+        }
     }
     return;
 }
@@ -156,27 +163,26 @@ void tabulate(void)
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
-    // int ties[candidate_count];
-    // int next_winner;
     int highest_votes = 0;
     int highest_voted;
 
-    for (int i = 0; i < candidate_count; i++)
+    // this seems to be some kind of selection sort...
+    for (int i = 0; i < candidate_count - 1; i++)
     {
         // get the highest voted candidate:
-        if (highest_votes < candidates[i].votes)
+        if (candidates[i].votes > candidates[i + 1].votes && candidates[i].votes > highest_votes)
         {
             highest_votes = candidates[i].votes;
             // get the index of highest voted candidate:
             highest_voted = i;
         }
+        else if (candidates[i + 1].votes > candidates[i].votes && candidates[i + 1].votes > highest_votes)
+        {
+            highest_votes = candidates[i + 1].votes;
+            // get the index of highest voted candidate:
+            highest_voted = i + 1;
+        }
     }
-
-    // ties[0] = highest_voted;
-    // if (ties[0] >= 0)
-    // {
-    //     next_winner = 1;
-    // }
 
     // rerun loop for possible ties:
     for (int i = 0; i < candidate_count; i++)
@@ -185,16 +191,15 @@ bool print_winner(void)
         {
             // there's at least a tie. So maybe there's no need to proceed?
             return false;
-            // ties[next_winner] = i;
-            // next_winner += 1;
         }
-        else
+        else if (highest_votes > (voter_count / 2))
         {
-            // if there's no tie, then there's a winner
+            // if there's no tie and a candidate gets the majority of votes, then there's a winner
             printf("%s\n", candidates[highest_voted].name);
             return true;
         }
     }
+
     return false;
 }
 
@@ -202,45 +207,75 @@ bool print_winner(void)
 int find_min(void)
 {
     // this is a sorting problem from the lecture :)
-    int lowest_votes = 0;
+    // assume the first candidate has the lowest vote:
     int lowest_voted = 0;
+    int lowest_votes = candidates[0].votes;
     for (int i = 0; i < candidate_count; i++)
     {
-        if (candidates[i].eliminated)
+        // check for candidates with 0 votes (shortcut):
+        if (candidates[i].votes == 0)
+        {
+            return 0;
+        }
+
+        if (i == 0)
         {
             continue;
         }
 
         // get the lowest voted candidate:
-        if (candidates[lowest_voted].votes > candidates[i].votes)
+        if (candidates[i].votes < lowest_votes && candidates[i].eliminated == false)
         {
             lowest_votes = candidates[i].votes;
             // get the index of lowest voted candidate:
             lowest_voted = i;
         }
     }
-    return lowest_voted;
+    return lowest_votes;
 }
 
 // Return true if the election is tied between all candidates, false otherwise
 bool is_tie(int min)
 {
-    int ties[candidate_count];
-    int next_winner = 0;
+    int rem_candidates[candidate_count];
+    int rem_count = candidate_count;
+    int ties = 0;
+    int curr_score = 0;
+
     for (int i = 0; i < candidate_count; i++)
     {
-        if (min == candidates[i].votes)
+        // mark the candidates:
+        if (candidates[i].eliminated == true && min <= candidates[i].votes)
         {
-            ties[next_winner] = i;
-            next_winner += 1;
+            rem_candidates[i] = 0;
+            rem_count -= 1;
+        }
+        else
+        {
+            rem_candidates[i] = 1;
         }
     }
 
-    if (next_winner > 0)
+    // loop through the remaining canditates:
+    for (int j = 0; j < candidate_count; j++)
+    {
+
+        if (rem_candidates[j] == 1 && curr_score == 0)
+        {
+            curr_score = candidates[j].votes;
+        }
+        else if (rem_candidates[j] == 1)
+        {
+            if (curr_score == candidates[j].votes)
+            {
+                ties += 1;
+            }
+        }
+    }
+    if (ties == (rem_count - 1))
     {
         return true;
     }
-
     return false;
 }
 
@@ -258,4 +293,4 @@ void eliminate(int min)
     return;
 }
 
-// 2hrs+ and counting: 08 July 2021
+// 4.5hrs+ and counting: 10 July 2021

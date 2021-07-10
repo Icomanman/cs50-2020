@@ -13,28 +13,12 @@
 :) print_winner returns true when someone has a majority
 :) print_winner returns false when nobody has a majority
 :) print_winner returns false when leader has exactly 50% of vote
-
-# :( find_min returns minimum number of votes for candidate
-
-find_min did not identify correct minimum
-
-# :( find_min returns minimum when all candidates are tied
-
-find_min did not identify correct minimum
-
-# :( find_min ignores eliminated candidates
-
-find_min did not identify correct minimum
-
+:) find_min returns minimum number of votes for candidate
+:) find_min returns minimum when all candidates are tied
+:) find_min ignores eliminated candidates
 :) is_tie returns true when election is tied
-
-# :( is_tie returns false when election is not tied
-
-is_tie did not return false
-
-# :( is_tie returns false when only some of the candidates are tied
-
-is_tie did not return false
+:) is_tie returns false when election is not tied
+:) is_tie returns false when only some of the candidates are tied
 :) is_tie detects tie after some candidates have been eliminated
 :) eliminate eliminates candidate in last place
 :) eliminate eliminates multiple candidates in tie for last

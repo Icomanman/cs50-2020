@@ -2,19 +2,23 @@
 
 int R, G, B;
 int oR, oG, oB;
+const int POS = 1000;
 
-int round(float n)
+// name rond to avoid conflict with C's round
+int rond(float n)
 {
-    if (n < 100 && n > 10)
+    // truncate the float and round off to the nearest POS:
+    int trunc = n * POS;
+    int rem = trunc % POS;
+    if (rem > 499)
     {
-    }
-    else if (n < 1000 && n > 100)
-    {
+        trunc = ((trunc - rem) / POS) + 1;
     }
     else
     {
-        return 1;
+        trunc = ((trunc - rem) / POS);
     }
+    return trunc;
 }
 
 // Convert image to grayscale
@@ -29,7 +33,7 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
             G = image[i][j].rgbtGreen;
             B = image[i][j].rgbtBlue;
 
-            int avg = round((R + G + B) / 3);
+            int avg = rond((R + G + B) / 3.0);
 
             // assign the values:
             image[i][j].rgbtRed = avg;
@@ -52,9 +56,9 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
             oG = image[i][j].rgbtGreen;
             oB = image[i][j].rgbtBlue;
 
-            R = round(.393 * oR + .769 * oG + .189 * oB);
-            G = round(.349 * oR + .686 * oG + .168 * oB);
-            B = round(.272 * oR + .534 * oG + .131 * oB);
+            R = rond(.393 * oR + .769 * oG + .189 * oB);
+            G = rond(.349 * oR + .686 * oG + .168 * oB);
+            B = rond(.272 * oR + .534 * oG + .131 * oB);
 
             R = R > 255 ? 255 : R;
             G = G > 255 ? 255 : G;
@@ -79,3 +83,5 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     return;
 }
+
+// 1.5hrs + and counting: 13 July 2021

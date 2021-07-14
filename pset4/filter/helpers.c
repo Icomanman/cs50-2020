@@ -75,13 +75,88 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE rev[height][width];
+    // iterate with the image pixels starting with the a row then its respective columns:
+    for (int i = 0; i < height; i++)
+    {
+        // start with the edges:
+        rev[i][0].rgbtRed = image[i][width - 1].rgbtRed;
+        rev[i][0].rgbtGreen = image[i][width - 1].rgbtGreen;
+        rev[i][0].rgbtBlue = image[i][width - 1].rgbtBlue;
+
+        rev[i][width - 1].rgbtRed = image[i][0].rgbtRed;
+        rev[i][width - 1].rgbtGreen = image[i][0].rgbtGreen;
+        rev[i][width - 1].rgbtBlue = image[i][0].rgbtBlue;
+        // copy the rows as reversed:
+        for (int j = 1; j < width; j++)
+        {
+            rev[i][width - j - 1].rgbtRed = image[i][j].rgbtRed;
+            rev[i][width - j - 1].rgbtGreen = image[i][j].rgbtGreen;
+            rev[i][width - j - 1].rgbtBlue = image[i][j].rgbtBlue;
+        }
+
+        // assign the reversed pixels to the original image:
+        for (int k = 0; k < width; k++)
+        {
+            image[i][k].rgbtRed = rev[i][k].rgbtRed;
+            image[i][k].rgbtGreen = rev[i][k].rgbtGreen;
+            image[i][k].rgbtBlue = rev[i][k].rgbtBlue;
+        }
+    }
     return;
 }
 
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE tmp[height][width]; // temporary RGBTRIPLE holder
+    // iterate with the image pixels starting with the a row then its respective columns:
+    for (int i = 0; i < height; i++)
+    {
+        // top row pixels:
+        if (i == 0)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                // leftmost column:
+                if (j == 0)
+                {
+
+                    image[i][j].rgbtRed;
+                    image[i][j].rgbtGreen;
+                    image[i][j].rgbtBlue;
+                }
+                // middle columns:
+                else if (j != width - 1)
+                {
+                }
+                // rightmost column:
+                else
+                {
+                }
+            }
+        }
+        // middle rows pixels:
+        else if (i != height - 1)
+        {
+        }
+        // bottom row pixels:
+        else
+        {
+        }
+    }
+
+    // assign the blurred pixels to the original image:
+    for (int x = 0; x < height; x++)
+    {
+        for (int y = 0; y < width; y++)
+        {
+            image[x][y].rgbtRed = tmp[x][y].rgbtRed;
+            image[x][y].rgbtGreen = tmp[x][y].rgbtGreen;
+            image[x][y].rgbtBlue = tmp[x][y].rgbtBlue;
+        }
+    }
     return;
 }
 
-// 1.5hrs + and counting: 13 July 2021
+// 3hrs + and counting: 14 July 2021

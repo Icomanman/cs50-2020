@@ -121,6 +121,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         // top row:
         if (i == 0)
         {
+            // 2 vertical steps of 2 horizontal blocks to get 4 pixels:
+            // blocks were made as float for floating point division
+            int steps = 2;
             for (int j = 0; j < width; j++)
             {
                 // top-left corner:
@@ -129,18 +132,18 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     int sum_red = 0;
                     int sum_green = 0;
                     int sum_blue = 0;
-                    // 2 steps of 2 horizontal blocks to get 4 pixels:
-                    for (int k = i; k < 2; k++)
+                    // 2 horizontal blocks:
+                    float blocks = 2.0;
+                    for (int k = i; k < steps; k++)
                     {
                         sum_red += image[i + k][j].rgbtRed + image[i + k][j + 1].rgbtRed;
                         sum_green += image[i + k][j].rgbtGreen + image[i + k][j + 1].rgbtGreen;
                         sum_blue += image[i + k][j].rgbtBlue + image[i + k][j + 1].rgbtBlue;
                     }
-
                     // assign the values:
-                    tmp[i][j].rgbtRed = rond(sum_red / 4.0);
-                    tmp[i][j].rgbtGreen = rond(sum_green / 4.0);
-                    tmp[i][j].rgbtBlue = rond(sum_blue / 4.0);
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
                 }
                 // interior columns:
                 else if (j != width - 1)
@@ -148,18 +151,18 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     int sum_red = 0;
                     int sum_green = 0;
                     int sum_blue = 0;
-                    // 2 steps of 3 horizontal blocks to get 6 pixels:
-                    for (int k = i; k < 3; k++)
+                    // 3 horizontal blocks:
+                    float blocks = 3.0;
+                    for (int k = i; k < steps; k++)
                     {
                         sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed + image[i + k][j + 1].rgbtRed;
                         sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen + image[i + k][j + 1].rgbtGreen;
                         sum_blue += image[i + k][j - 1].rgbtBlue + image[i + k][j].rgbtBlue + image[i + k][j + 1].rgbtBlue;
                     }
-
                     // assign the values:
-                    tmp[i][j].rgbtRed = rond(sum_red / 6.0);
-                    tmp[i][j].rgbtGreen = rond(sum_green / 6.0);
-                    tmp[i][j].rgbtBlue = rond(sum_blue / 6.0);
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
                 }
                 // top-right:
                 else
@@ -167,53 +170,54 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     int sum_red = 0;
                     int sum_green = 0;
                     int sum_blue = 0;
-                    // 2 steps of 2 horizontal blocks to get 4 pixels:
-                    for (int k = i; k < 2; k++)
+                    // 2 horizontal blocks:
+                    float blocks = 2.0;
+                    for (int k = i; k < steps; k++)
                     {
                         sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed;
                         sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen;
                         sum_blue += image[i + k][j - 1].rgbtBlue + image[i + k][j].rgbtBlue;
                     }
-
                     // assign the values:
-                    tmp[i][j].rgbtRed = rond(sum_red / 4.0);
-                    tmp[i][j].rgbtGreen = rond(sum_green / 4.0);
-                    tmp[i][j].rgbtBlue = rond(sum_blue / 4.0);
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
                 }
             }
         }
         // middle rows pixels:
         else if (i != height - 1)
         {
+            // 3 vertical steps of 2 horizontal blocks to get 6 pixels:
+            // blocks were made as float for floating point division
+            int steps = 3;
             for (int j = 0; j < width; j++)
             {
+                int sum_red = 0;
+                int sum_green = 0;
+                int sum_blue = 0;
                 // leftmost column:
                 if (j == 0)
                 {
-                    int sum_red = 0;
-                    int sum_green = 0;
-                    int sum_blue = 0;
-                    // 3 steps of 2 horizontal blocks to get 6 pixels:
-                    for (int k = i; k < 3; k++)
+                    // 2 horizontal blocks:
+                    float blocks = 2.0;
+                    for (int k = -1; k < steps - 1; k++)
                     {
                         sum_red += image[i + k][j].rgbtRed + image[i + k][j + 1].rgbtRed;
                         sum_green += image[i + k][j].rgbtGreen + image[i + k][j + 1].rgbtGreen;
                         sum_blue += image[i + k][j].rgbtBlue + image[i + k][j + 1].rgbtBlue;
                     }
-
                     // assign the values:
-                    tmp[i][j].rgbtRed = rond(sum_red / 4.0);
-                    tmp[i][j].rgbtGreen = rond(sum_green / 4.0);
-                    tmp[i][j].rgbtBlue = rond(sum_blue / 4.0);
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
                 }
                 // middle columns:
                 else if (j != width - 1)
                 {
-                    int sum_red = 0;
-                    int sum_green = 0;
-                    int sum_blue = 0;
-                    // 2 steps of 3s to make 6 blocks of pixels:
-                    for (int k = i; k < 3; k++)
+                    // 3 horizontal blocks:
+                    float blocks = 3.0;
+                    for (int k = -1; k < steps - 1; k++)
                     {
                         sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed + image[i + k][j + 1].rgbtRed;
                         sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen + image[i + k][j + 1].rgbtGreen;
@@ -221,34 +225,93 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     }
 
                     // assign the values:
-                    tmp[i][j].rgbtRed = rond(sum_red / 6.0);
-                    tmp[i][j].rgbtGreen = rond(sum_green / 6.0);
-                    tmp[i][j].rgbtBlue = rond(sum_blue / 6.0);
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
                 }
                 // rightmost column:
                 else
                 {
-                    int sum_red = 0;
-                    int sum_green = 0;
-                    int sum_blue = 0;
-                    // 2 steps of 2s to make 4 blocks of pixels:
-                    for (int k = i; k < 2; k++)
+                    // 2 horizontal blocks:
+                    float blocks = 2.0;
+                    for (int k = -1; k < steps - 1; k++)
                     {
                         sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed;
                         sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen;
                         sum_blue += image[i + k][j - 1].rgbtBlue + image[i + k][j].rgbtBlue;
                     }
-
                     // assign the values:
-                    tmp[i][j].rgbtRed = rond(sum_red / 4.0);
-                    tmp[i][j].rgbtGreen = rond(sum_green / 4.0);
-                    tmp[i][j].rgbtBlue = rond(sum_blue / 4.0);
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
                 }
             }
         }
         // bottom row pixels:
         else
-        {
+        { // 2 vertical steps of 2 horizontal blocks to get 4 pixels:
+            // blocks were made as float for floating point division
+            int steps = 2;
+            for (int j = 0; j < width; j++)
+            {
+                // bottom-left corner:
+                if (j == 0)
+                {
+                    int sum_red = 0;
+                    int sum_green = 0;
+                    int sum_blue = 0;
+                    // 2 horizontal blocks:
+                    float blocks = 2.0;
+                    for (int k = -1; k < steps - 1; k++)
+                    {
+                        sum_red += image[i + k][j].rgbtRed + image[i + k][j + 1].rgbtRed;
+                        sum_green += image[i + k][j].rgbtGreen + image[i + k][j + 1].rgbtGreen;
+                        sum_blue += image[i + k][j].rgbtBlue + image[i + k][j + 1].rgbtBlue;
+                    }
+                    // assign the values:
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
+                }
+                // interior columns:
+                else if (j != width - 1)
+                {
+                    int sum_red = 0;
+                    int sum_green = 0;
+                    int sum_blue = 0;
+                    // 3 horizontal blocks:
+                    float blocks = 3.0;
+                    for (int k = -1; k < steps - 1; k++)
+                    {
+                        sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed + image[i + k][j + 1].rgbtRed;
+                        sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen + image[i + k][j + 1].rgbtGreen;
+                        sum_blue += image[i + k][j - 1].rgbtBlue + image[i + k][j].rgbtBlue + image[i + k][j + 1].rgbtBlue;
+                    }
+                    // assign the values:
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
+                }
+                // bottom-right:
+                else
+                {
+                    int sum_red = 0;
+                    int sum_green = 0;
+                    int sum_blue = 0;
+                    // 2 horizontal blocks:
+                    float blocks = 2.0;
+                    for (int k = -1; k < steps - 1; k++)
+                    {
+                        sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed;
+                        sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen;
+                        sum_blue += image[i + k][j - 1].rgbtBlue + image[i + k][j].rgbtBlue;
+                    }
+                    // assign the values:
+                    tmp[i][j].rgbtRed = rond(sum_red / (steps * blocks));
+                    tmp[i][j].rgbtGreen = rond(sum_green / (steps * blocks));
+                    tmp[i][j].rgbtBlue = rond(sum_blue / (steps * blocks));
+                }
+            }
         }
     }
 
@@ -265,4 +328,52 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     return;
 }
 
-// 3hrs + and counting: 14 July 2021
+// 5hrs + and counting: 17 July 2021
+/*
+// blocks are counted horizonally while step is vertical
+// topBlocks function is intended for top rows where step size is always 2:
+RGBTRIPLE topBlocks(int i, int j, int blocks, RGBTRIPLE image[blocks][2])
+{
+    int sum_red = 0;
+    int sum_green = 0;
+    int sum_blue = 0;
+    int steps = 2;
+    RGBTRIPLE tmp; // temporary RGBTRIPLE holder
+    if (blocks != 2 && blocks != 3)
+    {
+        // paint it black
+        tmp.rgbtRed = 0;
+        tmp.rgbtGreen = 0;
+        tmp.rgbtBlue = 0;
+        perror("> ERROR: Please input 2 or 3 only.");
+        return tmp;
+    }
+    // 2 horizontal blocks:
+    else if (blocks == 2)
+    {
+        // 2 vertical steps of 2 horizontal blocks to get 4 pixels:
+        for (int k = i; k < steps; k++)
+        {
+            sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed;
+            sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen;
+            sum_blue += image[i + k][j - 1].rgbtBlue + image[i + k][j].rgbtBlue;
+        }
+    }
+    // 3 horizontal blocks:
+    else if (blocks == 3)
+    {
+        // 2 vertical steps of 3 horizontal blocks to get 6 pixels:
+        for (int k = i; k < steps; k++)
+        {
+            sum_red += image[i + k][j - 1].rgbtRed + image[i + k][j].rgbtRed + image[i + k][j + 1].rgbtRed;
+            sum_green += image[i + k][j - 1].rgbtGreen + image[i + k][j].rgbtGreen + image[i + k][j + 1].rgbtGreen;
+            sum_blue += image[i + k][j - 1].rgbtBlue + image[i + k][j].rgbtBlue + image[i + k][j + 1].rgbtBlue;
+        }
+    }
+    // assign the values:
+    tmp.rgbtRed = rond(sum_red / (float)(steps * blocks));
+    tmp.rgbtGreen = rond(sum_green / (float)(steps * blocks));
+    tmp.rgbtBlue = rond(sum_blue / (float)(steps * blocks));
+    return tmp;
+}
+*/

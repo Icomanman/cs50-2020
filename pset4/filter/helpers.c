@@ -121,10 +121,15 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 // leftmost column:
                 if (j == 0)
                 {
-
-                    image[i][j].rgbtRed;
-                    image[i][j].rgbtGreen;
-                    image[i][j].rgbtBlue;
+                    int sum_red = 0;
+                    int sum_green = 0;
+                    int sum_blue = 0;
+                    for (int k = 0; k < 2; k++)
+                    {
+                        sum_red = image[i][j].rgbtRed;
+                        sum_green = image[i][j].rgbtGreen;
+                        sum_blue = image[i][j].rgbtBlue;
+                    }
                 }
                 // middle columns:
                 else if (j != width - 1)

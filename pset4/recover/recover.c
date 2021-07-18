@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+typedef uint8_t BYTE;
+BYTE e = 0xe0;
+BYTE f = 0xff;
+BYTE g = 0xd8;
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -16,12 +21,12 @@ int main(int argc, char *argv[])
         printf("Unable to open file.\n");
     }
 
-    uint8_t *buffer = malloc(sizeof(uint8_t));
-    int n = fread(buffer, sizeof(uint8_t), 1, input);
-    printf("The %i byte is %u\n", n, *buffer);
+    BYTE *buffer = malloc(sizeof(BYTE));
+    int n = fread(buffer, sizeof(BYTE), 1, input);
+    printf("The 0e = %u and 0f = %u\n", e, f);
 
     fclose(input);
     free(buffer);
 }
 
-// 1+ hrs 18 July 2021
+// 1.5+ hrs 18 July 2021

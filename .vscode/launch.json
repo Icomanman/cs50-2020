@@ -5,14 +5,12 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "filter-gdb",
+			"name": "cs50-gdb",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/pset4/filter/filter",
+			"program": "${workspaceFolder}/pset4/recover/recover",
 			"args": [
-				"-b",
-				"${workspaceFolder}/pset4/filter/images/yard.bmp",
-				"${workspaceFolder}/pset4/filter/blur.bmp"
+				"${workspaceFolder}/pset4/recover/card.raw"
 			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
